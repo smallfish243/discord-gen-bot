@@ -58,7 +58,7 @@ module.exports = {
             // send message to channel
             message.channel.send(
                 new Discord.MessageEmbed()
-                .setColor(color.green)
+                .setColor(config.color.green)
                 .setTitle('Szolgáltatás létrehozva!')
                 .setDescription(`Új ${args[0]} szolgáltatás létrehozva!`)
                .setFooter(message.author.tag, message.author.displayAvatarURL())
