@@ -38,7 +38,7 @@ Before you try to start the bot, you need to fill the `config.json` file.
 - `genChannel`: Target channel for `gen` command
 - `genCooldown`: Time between two `gen` command *(use millisec)*
 
-You can change the `green`, `yellow`, `red` and `default` colors
+You can change the `green`, `yellow`, `red` and `default` colors.
 
 ---
 
