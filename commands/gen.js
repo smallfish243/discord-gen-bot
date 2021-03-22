@@ -163,6 +163,7 @@ module.exports = {
 
                                 // embed
                                 new Discord.MessageEmbed()
+                                .setColor(config.color.red)
                                 .setTitle('Gen error!')
                                 .setDescription(`I do not find any accounts in \`${args[0]}\` service!`)
                                 .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
