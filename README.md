@@ -5,7 +5,6 @@
 ![GitHub issues](https://img.shields.io/github/issues/blazsmaster/discord-gen-bot?style=for-the-badge)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/blazsmaster/discord-gen-bot?style=for-the-badge)
 ![GitHub Repo stars](https://img.shields.io/github/stars/blazsmaster/discord-gen-bot?style=for-the-badge)
-![GitHub Repo stars](https://img.shields.io/github/stars/blazsmaster/discord-gen-bot?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/blazsmaster/discord-gen-bot?style=for-the-badge)
 
 
