@@ -30,25 +30,6 @@ module.exports = {
         // account
         const account = args[1];
 
-        // if no account
-        if (!account) {
-
-            // send message to channel
-            message.channel.send(
-
-                // embed
-                new Discord.MessageEmbed()
-                .setColor(config.color.red)
-                .setTitle('Missing parameters')
-                .setDescription('You need to give an account or data!')
-                .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
-                .setTimestamp()
-            );
-
-            // cancel
-            return;
-        };
-
         // if no service
         if (!service) {
 
@@ -60,6 +41,25 @@ module.exports = {
                 .setColor(config.color.red)
                 .setTitle('Missing parameters')
                 .setDescription('You need to give a service name!')
+                .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
+                .setTimestamp()
+            );
+
+            // cancel
+            return;
+        };
+
+        // if no account
+        if (!account) {
+
+            // send message to channel
+            message.channel.send(
+
+                // embed
+                new Discord.MessageEmbed()
+                .setColor(config.color.red)
+                .setTitle('Missing parameters')
+                .setDescription('You need to give an account or data!')
                 .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                 .setTimestamp()
             );
