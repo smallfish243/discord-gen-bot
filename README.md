@@ -90,5 +90,5 @@ Create a service with `create` command.
 
 ## Upcoming
 
-`stock` - Check how many items in a service file *(how many lines in)*
-`restock` - Restock all services
+- `stock` - Check how many items in a service file *(how many lines in)*
+- `restock` - Restock all services
