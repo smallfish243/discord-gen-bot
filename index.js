@@ -95,7 +95,9 @@ client.on('message', (message) => {
             .setColor(config.color.red)
             .setTitle('Error occurred!')
             .setDescription(`An error occurred in \`${command}\` command!`)
-            .addField('Error', `\`\`\`${error}\`\`\``)
+            .addField('Error', `\`\`\`js\n${error}\n\`\`\``)
+            .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
+            .setTimestamp()
         );
 	};
 });
