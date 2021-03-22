@@ -1,5 +1,7 @@
-// configuration
+// npmjs packages
 const Discord = require('discord.js');
+
+// configuration
 const config = require('../config.json');
 
 // export command
