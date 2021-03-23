@@ -9,9 +9,9 @@
 
 
 ## Table of Contents
-- [Installion](#-installion)
-- [How it Works?](#-works?)
-- [Upcoming Updates](#-upcoming)
+- [Installion](#installion)
+- [How it Works?](#works)
+- [Upcoming Updates](#upcoming)
 
 ## Installion
 Install packages: `npm install`
