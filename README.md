@@ -10,7 +10,7 @@
 
 ## Table of Contents
 - [Installion](#installion)
-- [How it Works?](#works)
+- [How it Works?](#works?)
 - [Upcoming Updates](#upcoming)
 
 ## Installion
