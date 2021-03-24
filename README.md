@@ -87,7 +87,15 @@ Create a service with `create` command.
 
 ![img](https://media.discordapp.net/attachments/823618296272257024/823618323047907358/unknown.png)
 
+### Check service stock
+Check a definied service's account size.
+- Example: `check test`
+
+![img](https://media.discordapp.net/attachments/823618296272257024/824189319211384853/unknown.png)
+
+---
+
 ## Upcoming
 
-- `stock` - Check how many items in a service file *(how many lines in)*
+- ✔️ *~~`stock`~~ `check` - Check how many items in a service file (how many lines in)*
 - `restock` - Restock all services
