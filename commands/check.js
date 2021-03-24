@@ -48,8 +48,40 @@ module.exports = {
         // lines
         let lines = [];
 
-        // read file
-        fs.readFileSync(filePath, 'utf-8').split(/\r?\n/).forEach(function (line) {
+        // file to read
+        var fileContents;
+
+        // try to read file
+        try {
+
+            // read file
+            fileContents = fs.readFileSync(filePath, 'utf-8')
+
+        // if error
+        } catch (error) {
+
+            // if error
+            if (error) {
+                
+                // send message to channel
+                message.channel.send(
+
+                    // embed
+                    new Discord.MessageEmbed()
+                    .setColor(config.color.red)
+                    .setTitle('Check error!')
+                    .setDescription(`I can not find the \`${args[0]}\` service in my stock!`)
+                    .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
+                    .setTimestamp()
+                );
+
+                // cancel
+                return;
+            };
+        };
+
+        //
+        fileContents.split(/\r?\n/).forEach(function (line) {
 
             // push lines
             lines.push(line);
