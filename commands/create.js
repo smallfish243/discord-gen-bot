@@ -61,7 +61,7 @@ module.exports = {
                 .setColor(config.color.green)
                 .setTitle('Service created!')
                 .setDescription(`New ${args[0]} service created!`)
-               .setFooter(message.author.tag, message.author.displayAvatarURL())
+                .setFooter(message.author.tag, message.author.displayAvatarURL())
                 .setTimestamp()
             );
         });
