@@ -80,7 +80,7 @@ module.exports = {
             };
         };
 
-        //
+        // get lines
         fileContents.split(/\r?\n/).forEach(function (line) {
 
             // push lines
