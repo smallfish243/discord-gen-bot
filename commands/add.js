@@ -3,9 +3,9 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const os = require('os');
 const config = require('../config.json');
-const log = new CatLoggr();
-
 const CatLoggr = require('cat-loggr');
+
+const log = new CatLoggr();
 
 module.exports = {
 	name: 'add', // command name at execute (may be different from the file name)
