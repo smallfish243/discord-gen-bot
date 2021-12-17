@@ -1,97 +1,78 @@
-// npmjs packages
+// packages
 const Discord = require('discord.js');
 const fs = require('fs');
-
-// configuration
 const config = require('../config.json');
+const CatLoggr = require('cat-loggr');
 
-// collections
+const log = new CatLoggr();
+
+// constants
 const generated = new Set();
 
-// export command
 module.exports = {
-    
-    // command name
-	name: 'gen',
+	name: 'gen', // command name at execute (may be different from the file name)
+	description: 'Generate a specified service, if stocked.', // description in help command
 
-    // command description
-	description: 'Generate a specified service, if stocked.',
-
-    // command
-	execute(message) {
-
-        // if gen channel
-        if (message.channel.id === config.genChannel) {
-
-            // if generated before
-            if (generated.has(message.author.id)) {
-
-                // send message to channel
-                message.channel.send(
+    // the command :D
+	execute(message, args) {
+        // if the gen channel is not specified in config or bad id specified
+        try {
+            message.client.channels.cache.get(config.genChannel).id; // get the gen channel id (for testing the config)
+        } catch (error) {
+            if (error) log.error(error);
+            if (config.command.error_message === true) {
+                return message.channel.send(
                     new Discord.MessageEmbed()
-                    .setColor(color.red)
-                    .setTitle('Cooldown')
-                    .setDescription('Please wait before executing another command!')
+                    .setColor(config.color.red)
+                    .setTitle('Error occured!')
+                    .setDescription('Not a valid gen channel specified!')
                     .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                     .setTimestamp()
                 );
+            };
+        };
 
-                // cancel
-                return;
-
-            // if not generated before
+        // if command executed in the gen channel
+        if (message.channel.id === config.genChannel) {
+            // if the command used before the cooldown ends
+            if (generated.has(message.author.id)) {
+                return message.channel.send(
+                    new Discord.MessageEmbed()
+                    .setColor(color.red)
+                    .setTitle('Cooldown')
+                    .setDescription('Please wait before executing that command again!')
+                    .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
+                    .setTimestamp()
+                );
             } else {
+                const service = args[0];
 
-                // split message content
-                const messageArray = message.content.split(' ');
-
-                // args
-                const args = messageArray.slice(1);
-
-                // if the service is missing
-                if (!args[0]) {
-
-                    // send message to channel
-                    message.channel.send(
-
-                        // embed
+                // if no service specified
+                if (!service) {
+                    return message.channel.send(
                         new Discord.MessageEmbed()
                         .setColor(config.color.red)
-                        .setTitle('Missing parameters')
-                        .setDescription('You need to give a service name!')
+                        .setTitle('Missing parameters!')
+                        .setDescription('You need to specify a service!')
                         .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                         .setTimestamp()
                     );
-
-                    // cancel
-                    return;
                 };
+                
+                const filePath = `${__dirname}/../stock/${args[0]}.txt`; // path for the specified service
 
-                // stock files path
-                const filePath = `${__dirname}/../stock/${args[0]}.txt`;
-
-                // read the file
+                // read file
                 fs.readFile(filePath, function (error, data) {
-
-                    // if no error
+                    // if everything is okay c:
                     if (!error) {
+                        data = data.toString(); // convert content to strings
 
-                        // text file content to string
-                        data = data.toString();
+                        const position = data.toString().indexOf('\n'); // get position
+                        const firstLine = data.split('\n')[0]; // get the first line
 
-                        // find position
-                        const position = data.toString().indexOf('\n');
-
-                        // find first line
-                        const firstLine = data.split('\n')[0];
-
-                        // if cannot find first line
+                        // if nothing in the specified service file
                         if (position === -1) {
-
-                            // send message to channel
-                            message.channel.send(
-
-                                // embed
+                            return message.channel.send(
                                 new Discord.MessageEmbed()
                                 .setColor(config.color.red)
                                 .setTitle('Gen error!')
@@ -99,116 +80,74 @@ module.exports = {
                                 .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                                 .setTimestamp()
                             );
-
-                            // cancel
-                            return;
                         };
 
-                        // send the embed and the copy-paste to the message author
+                        // send the embed and the copy+pasta message to user
                         message.author.send(
-
-                            //embed
                             new Discord.MessageEmbed()
                             .setColor(config.color.green)
                             .setTitle('Generated account')
-                            .addField('Service', `${args[0]}`)
-                            .addField('Account/Data', `\`\`\`${firstLine}\`\`\``)
+                            .addField('Service', `\`\`\`${args[0][0].toUpperCase()}${args[0].slice(1).toLowerCase()}\`\`\``, true)
+                            .addField('Account', `\`\`\`${firstLine}\`\`\``, true)
                             .setTimestamp()
                         ).then(message.author.send('Here is your copy+paste:')).then(message.author.send(`\`${firstLine}\``));
 
-                        // if the service generated successful (position)
+                        // if the DM message sent successfully
                         if (position !== -1) {
-
-                            // text file to string and change position
-                            data = data.substr(position + 1);
-
-                            // write file
+                            data = data.substr(position + 1); // remove line
+                            
+                            // write the changes to service file
                             fs.writeFile(filePath, data, function (error) {
-
-                                // send message to channel
                                 message.channel.send(
-
-                                    // embed
                                     new Discord.MessageEmbed()
                                     .setColor(config.color.green)
-                                    .setTitle('Account generated!')
-                                    .setDescription(`Check your DMs ${message.author}! *If you do not recieved the message, please unlock your DMs!*`)
+                                    .setTitle('Account generated seccessfully!')
+                                    .setDescription(`Check your private ${message.author}! *If you do not recieved the message, please unlock your private!*`)
                                     .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                                     .setTimestamp()
                                 );
 
-                                // add the message author to cooldown collection
-                                generated.add(message.author.id);
+                                generated.add(message.author.id); // create cooldown for the author
 
-                                // set cooldown (in millisec)
+                                // set cooldown
                                 setTimeout(() => {
+                                    generated.delete(message.author.id); // remove the author after the cooldown expires
+                                }, config.genCooldown); // get cooldown from config
 
-                                    // remove the message author from cooldown collection after timeout
-                                    generated.delete(message.author.id);
-                                }, config.genCooldown);
-
-                                // if error
-                                if (error) {
-
-                                    // write to console
-                                    console.log(error);
-                                };
+                                // if an error occured
+                                if (error) log.error(error); // say to console
                             });
-
-                        // if no lines
                         } else {
-
-                            // send message to channel
-                            message.channel.send(
-
-                                // embed
+                            return message.channel.send(
                                 new Discord.MessageEmbed()
                                 .setColor(config.color.red)
-                                .setTitle('Gen error!')
-                                .setDescription(`I do not find any accounts in \`${args[0]}\` service!`)
+                                .setTitle('Generator error!')
+                                .setDescription(`The \`${args[0]}\` service is empty!`)
                                 .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                                 .setTimestamp()
                             );
-
-                            // cancel
-                            return;
                         };
-
-                    // if error
                     } else {
-
-                        // send message to channel
-                        message.channel.send(
-
-                            // embed
+                        return message.channel.send(
                             new Discord.MessageEmbed()
                             .setColor(config.color.red)
-                            .setTitle('Gen error!')
-                            .setDescription(`I do not find the \`${args[0]}\` service in my stock!`)
+                            .setTitle('Generator error!')
+                            .setDescription(`Service \`${args[0]}\` does not exist!`)
                             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                             .setTimestamp()
                         );
-
-                        // cancel
-                        return;
                     };
                 });
             };
-
-        // if not gen channel
         } else {
-
-            // send message to channel
             message.channel.send(
-
-                // embed
                 new Discord.MessageEmbed()
                 .setColor(config.color.red)
-                .setTitle('Prohibited activity!')
-                .setDescription(`You can use the ${config.prefix}gen command only in <#${config.genChannel}> channel!`)
+                .setTitle('Wrong command usage!')
+                .setDescription(`You cannot use the \`gen\` command in this channel! Only in <#${config.genChannel}>A`)
                 .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                 .setTimestamp()
             );
         };
-	},
+	}
 };
