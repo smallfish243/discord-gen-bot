@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/blazsmaster/discord-gen-bot#readme",
   "dependencies": {
+    "cat-loggr": "^1.2.2",
     "discord.js": "^12.5.1",
     "fs": "0.0.1-security",
     "os": "^0.1.1"
