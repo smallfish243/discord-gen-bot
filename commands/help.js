@@ -1,34 +1,23 @@
-// npmjs packages
+// packages
 const Discord = require('discord.js');
-
-// configuration
 const config = require('../config.json');
 
-// export command
 module.exports = {
-    
-    // command name
-	name: 'help',
+	name: 'help', // command name at execute (may be different from the file name)
+	description: 'Display the command list.', // description in help command
 
-    // command description
-	description: 'List all commands.',
-
-    // command
+    // the command
 	execute(message) {
-
-        // const commands
+        // get the commands
 		const { commands } = message.client;
-
-        // send message to channel
+        
         message.channel.send(
-
-            // embed
             new Discord.MessageEmbed()
             .setColor(config.color.default)
-            .setTitle('Command help')
-            .setDescription(commands.map(c => `\`${config.prefix}${c.name}\` - \`${c.description ? c.description : 'No description provided!'}\``).join('\n'))
+            .setTitle('Command list')
+            .setDescription(commands.map(c => `**\`${config.prefix}${c.name}\`**: ${c.description ? c.description : '*No description provided!*'}`).join('\n')) // mapping the command list
             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
             .setTimestamp()
         );
-	},
+	}
 };
