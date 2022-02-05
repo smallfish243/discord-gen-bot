@@ -1,69 +1,60 @@
 # Discord GEN-BOT
 
 ## Badges
+![GitHub last commit](https://img.shields.io/github/last-commit/blazsmaster/discord-gen-bot?style=for-the-badge)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/blazsmaster/discord-gen-bot?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues/blazsmaster/discord-gen-bot?style=for-the-badge)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/blazsmaster/discord-gen-bot?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/blazsmaster/discord-gen-bot?style=for-the-badge)
 ![GitHub Repo stars](https://img.shields.io/github/stars/blazsmaster/discord-gen-bot?style=for-the-badge)
+![GitHub watchers](https://img.shields.io/github/watchers/blazsmaster/discord-gen-bot?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/blazsmaster/discord-gen-bot?style=for-the-badge)
+![GitHub package.json dependency version (prod)](https://img.shields.io/github/package-json/dependency-version/blazsmaster/discord-gen-bot/discord.js?style=for-the-badge)
 
+## Installation
+Install all dependencies:
+```
+$ npm install
+```
 
-## Table of Contents
-- [Installion](#installion)
-- [How it Works?](#works?)
-- [Upcoming Updates](#upcoming)
+### Configuration
+Before you try to start the bot, you need to complete the `config.json` file in the main folder.
 
-## Installion
-Install packages: `npm install`
-
-### Configuration file
-Before you try to start the bot, you need to fill the `config.json` file.
+#### Default
 ```json
 {
     "token": "",
-    "prefix": "",
+    "prefix": "gen!",
     "genChannel": "",
-    "genCooldown": "",
+    "genCooldown": "1000",
     "color": {
-        "green": "0x43B581",
-        "yellow": "0xFAA61A",
-        "red": "0xF04747",
-        "default": "0x7289DA"
+        "green": "0x57F287",
+        "yellow": "0xFEE75C",
+        "red": "0xED4245",
+        "default": "0x5865F2"
+    },
+    "command": {
+        "notfound_message": true,
+        "error_message": true
     }
 }
 ```
-- `token`: Your bot's token
-- `prefix`: Your prefix for executing commands (max 10 characters)
-- `genChannel`: Target channel for `gen` command
-- `genCooldown`: Time between two `gen` command *(use millisec)*
+- `token`: Your discord bot's token
+- `prefix`: Your bot's command prefix *(for example: !help | ?help | gen!help)*
+- `genChannel`: Forced channel for `gen` command
+- `genCooldown`: Cooldown between two executions of `gen` command *(use milliseconds)*
+- `notfound_message`: Sends a message to the channel if the message starts with the prefix but does not exists
+- `error_message`: Sends a message to the channel if an error occured and this setting is "true"
 
-You can change the `green`, `yellow`, `red` and `default` colors.
-
----
-
-### Stock location
-The default stock location: 
-```js
-const filePath = `${__dirname}/../stock/${args[0]}.txt`;
-                        ^^                  ^^
-                  commands folder         service
-```
-If you want to change the stock location, for example 
-```js
-`${__dirname}/../files/stock/${args[0]}.txt`
-```
-You need to keep the `${__dirname}/../` commands folder location.
+You can change the `green`, `yellow`, `red` and `default` colors to another hex colors.
 
 ---
 
 ## How it works?
 
 ### Adding account/data
-Add an account or data with `add` command. The space character in the data parameter make the write wrong.
+Add an account or a data with the `add` command. The space character in the data parameter make the write wrong.
 - Example: `add example_service abcd`
-Wrong example: `add example_service abcd` ~~`efg hijk`~~ <-- the last 2 arguments are not stored.
-
-![img](https://media.discordapp.net/attachments/823618296272257024/823618331881504798/unknown.png)
+- Wrong example: `add example_service abcd` ~~`efg hijk`~~ <-- the last 2 arguments are not stored
 
 ---
 
@@ -71,31 +62,16 @@ Wrong example: `add example_service abcd` ~~`efg hijk`~~ <-- the last 2 argument
 You can add account to the bot using `gen` command.
 - Example: `gen example_service`
 
-- Server:
-
-![img](https://media.discordapp.net/attachments/823618296272257024/823618340198940812/unknown.png)
-
-- DM:
-
-![img](https://media.discordapp.net/attachments/823618296272257024/823618347966005349/unknown.png)
-
 ---
 
 ### Creating service
 Create a service with `create` command.
 - Example: `create example_service`
 
-![img](https://media.discordapp.net/attachments/823618296272257024/823618323047907358/unknown.png)
-
 ### Check service stock
-Check a definied service's account size.
-- Example: `check test`
+Check the stock folder's content.
+- Example: `stock`
 
-![img](https://media.discordapp.net/attachments/823618296272257024/824189319211384853/unknown.png)
-
----
-
-## Upcoming
-
-- ✔️ *~~`stock`~~ `check` - Check how many items in a service file (how many lines in)*
-- `restock` - Restock all services
+### Check command list
+List bot commands.
+- Example: `help`
