@@ -1,63 +1,46 @@
-// npmjs packages
-const Discord = require('discord.js');
+// Dependencies
+const { MessageEmbed, Message } = require('discord.js');
 const fs = require('fs');
-
-// configuration
 const config = require('../config.json');
+const CatLoggr = require('cat-loggr');
 
-// export command
+// Functions
+const log = new CatLoggr();
+
 module.exports = {
-    
-    // command name
-	name: 'create',
+	name: 'create', // Command name
+	description: 'Create a new service.', // Command description
 
-    // command description
-	description: 'Create a service.',
+    /**
+     * Command exetute
+     * @param {Message} message The message sent by user
+     * @param {Array[]} args Arguments splitted by spaces after the command name
+     */
+	execute(message, args) {
+        // Parameters
+        const service = args[0];
 
-    // command
-	execute(message) {
-
-        // split message content
-        const messageArray = message.content.split(' ');
-
-        // args
-        const args = messageArray.slice(1);
-
-        // if no args[0] (service)
-        if (!args[0]) {
-
-            // send message to channel
-            message.channel.send(
-
-                // embed
-                new Discord.MessageEmbed()
+        // If the "service" parameter is missing
+        if (!service) {
+            return message.channel.send(
+                new MessageEmbed()
                 .setColor(config.color.red)
-                .setTitle('Missing parameters')
+                .setTitle('Missing parameters!')
                 .setDescription('You need to give a service name!')
                 .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
                 .setTimestamp()
             );
-
-            // cancel
-            return;
         };
 
-        // stock files path
+        // File path where create the new service file
         const filePath = `${__dirname}/../stock/${args[0]}.txt`;
 
-        // write file
+        // Create new file
         fs.writeFile(filePath, '', function (error) {
+            if (error) return log.error(error); // If an error occured, log to console
 
-            // if error
-            if (error) {
-                
-                // write to console
-                console.log(error);
-            };
-
-            // send message to channel
             message.channel.send(
-                new Discord.MessageEmbed()
+                new MessageEmbed()
                 .setColor(config.color.green)
                 .setTitle('Service created!')
                 .setDescription(`New ${args[0]} service created!`)
@@ -65,5 +48,5 @@ module.exports = {
                 .setTimestamp()
             );
         });
-    },
+    }
 };
