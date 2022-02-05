@@ -1,21 +1,23 @@
-// packages
-const Discord = require('discord.js');
+// Dependencies
+const { MessageEmbed, Message } = require('discord.js');
 const config = require('../config.json');
 
 module.exports = {
-	name: 'help', // command name at execute (may be different from the file name)
-	description: 'Display the command list.', // description in help command
+	name: 'help', // Command name
+	description: 'Display the command list.', // Command description
 
-    // the command
+    /**
+     * Command exetute
+     * @param {Message} message The message sent by user
+     */
 	execute(message) {
-        // get the commands
-		const { commands } = message.client;
+		const { commands } = message.client; // Get commands from the client
         
         message.channel.send(
-            new Discord.MessageEmbed()
+            new MessageEmbed()
             .setColor(config.color.default)
             .setTitle('Command list')
-            .setDescription(commands.map(c => `**\`${config.prefix}${c.name}\`**: ${c.description ? c.description : '*No description provided!*'}`).join('\n')) // mapping the command list
+            .setDescription(commands.map(c => `**\`${config.prefix}${c.name}\`**: ${c.description ? c.description : '*No description provided*'}`).join('\n')) // Mapping the commands
             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
             .setTimestamp()
         );
