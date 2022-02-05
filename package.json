@@ -1,6 +1,6 @@
 {
   "name": "discord-gen-bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A discord bot can generate stocked accounts and codes.",
   "main": "index.js",
   "scripts": {
@@ -27,5 +27,6 @@
     "discord.js": "^12.5.1",
     "fs": "0.0.1-security",
     "os": "^0.1.1"
-  }
+  },
+  "devDependencies": {}
 }
