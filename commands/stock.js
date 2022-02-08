@@ -14,7 +14,6 @@ module.exports = {
 	execute(message) {
         // Arrays
         const stock = [];
-        const lines = [];
 
         // Read all of the services
         fs.readdir(`${__dirname}/../stock/`, function (err, files) {
@@ -35,7 +34,8 @@ module.exports = {
             // Push all services to the stock
             stock.forEach(async function (data) {	
                 const acc = fs.readFileSync(`${__dirname}/../stock/${data}`, 'utf-8')	
-
+        	const lines = [];
+		    
                 // Get number of lines
                 acc.split(/\r?\n/).forEach(function (line) {
                     lines.push(line); // Push to lines
