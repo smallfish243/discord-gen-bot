@@ -29,7 +29,7 @@ client.login(config.token);
 
 client.once('ready', () => {
 	log.info(`I am logged in as ${client.user.tag} to Discord!`); // Say hello to console
-    client.user.setActivity(`${config.prefix}help • ${client.user.username.toUpperCase()}`, { type: "LISTENING" }); // Set the bot's activity status
+    client.user.setActivity(`${config.prefix}help • ${client.user.username.toUpperCase()}`, { type: "WATCHING" }); // Set the bot's activity status
     /* You can change the activity type to:
      * LISTENING
      * WATCHING
@@ -57,7 +57,7 @@ client.on('message', (message) => {
             .setDescription(`Sorry, but I cannot find the \`${command}\` command!`)
             .setFooter(message.author.tag, message.author.displayAvatarURL({ dynamic: true, size: 64 }))
             .setTimestamp()
-        );
+        );x
     };
 
     // Executing the command
